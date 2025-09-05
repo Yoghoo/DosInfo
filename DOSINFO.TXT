@@ -6,41 +6,49 @@ Index of this document:
 
  1- Background and main features
  2- Usage, options and examples
- 3- Logo and colors
- 4- Tested systems
- 5- Example output from DosInfo
-
+ 3- Check explanation
+ 4- Logo and colors
+ 5- Tested systems
+ 6- Example DosInfo output
 
 1- Background and main features
 ==============================================================================
 
 DosInfo is a neofetch clone for DOS. Neofetch was a very popular command-line 
-system information tool mainly for Linux (not longer maintained). There are a
-couple of DOS alternatives already but those require 386+ CPU's or didn't have
+system information tool mainly for Linux (no longer maintained). There are a
+couple of DOS alternatives already but those require 386+ CPUs or didn't have
 the options I would like to see.
 
-After seeing a post on Vogons where Jo22 mentioned dosfetch I became curious
-and saw that the sources were available as well. As I did some Turbo Pascal
-programming when I started my career I jumped on it and added the checks and
-options I wanted.
+After seeing a post on Vogons where userJo22 mentioned dosfetch I became 
+curious and saw that the sources were available as well. As I did some Turbo 
+Pascal programming when I started my career I jumped on it and added the 
+checks and options I wanted. In the process it became a complete rewrite and 
+almost none of the code for checks etc of dosfetch is used anymore.
 
 Further information about dosfetch can be found on their Github page
 (https://github.com/leahneukirchen/dosfetch/tree/master).
 
 Improvements from dosfetch include:
 
-Added checks:
+Added and improved checks:
 
-* Added EMS size
-* Added free base memory
-* Added CPU family info (only tested until Pentium II)
-* OS detection improved (added Dosbox, Dosbox-X and a couple of other OS's)
-* Added uptime
+ - Added XMS/EMS size
+ - Added free base memory
+ - Added CPU family info (including MMX/SSE/SSE2 if available)
+ - OS detection improved (added Dosbox, Dosbox-X etc)
+ - Added uptime (works with leap years etc for unrealistic long uptimes :))
+ - Now also works with FAT32 drives
+ - Shows all available drives
+ - Auto detects < 80 column displays and adjusts the output
 
 Added options:
 
-* Logo is changeable (with a text file)
-* Colors can be changed (with a config file)
+ - Logo is changeable (with a text file)
+ - Includes a /nologo switch if you don't want to show a logo
+ - Colors can be changed (with a config file)
+
+Removed some bugs (like OS version for older DOS versions) and added some 
+sanity checks (line length etc).
 
 2- Usage, options and examples
 ==============================================================================
@@ -52,18 +60,20 @@ DOSINFO.EXE /?
 
 Which gives you all available option. Here is an example of the output:
 
-DosInfo, version 1.0.1
+DosInfo, version 0.8.1
 Copyright 2025 (c) by Yoghoo
 
 Usage: DosInfo [options]
-  /create, -create  -- Create uptime counter file and run the program
-  /noshow, -noshow  -- Create uptime counter file but don't run the program
-  /remove, -remove  -- Remove uptime counter file
+  /create          -- Create uptime counter file and run the program
+  /nologo          -- Run the program without showing a logo
+  /nologo /create  -- Create uptime counter file and run program without logo
+  /noshow          -- Create uptime counter file but don't run the program
+  /remove          -- Remove uptime counter file
 
 Start with no parameters to run the program normally.
 
 Best way to start DosInfo is to put it at the end of your autoexec.bat. For 
-example:
+example add this line (change path if necessary):
 
 C:\UTILS\DOSINFO.EXE /CREATE
 
@@ -74,7 +84,49 @@ C:\UTILS\DOSINFO.EXE /NOSHOW
 
 Afterwards you can just run DOSINFO.EXE without parameters.
 
-3- Logo and colors
+3- Check explanation
+==============================================================================
+
+CPU: This will display the CPU family including MMX/SSE/SSE2 if available. For
+486SX and lower it will also show if a coprocessor is available or not. As 
+there are a LOT of CPUs released by many vendors over the years there will 
+probably be some misdetections especially with more recent CPUs. In theory 
+it should detect CPUs until around 2021.
+
+OS: This returns the output from the ver command. This can contain something
+like "Windows 98 [version number]", "4DOS 7,50 DR DOS 6,00" etc. If running 
+DOSBox or DOSBox-X it will show that instead.
+
+Dos Version: This will return the reported DOS version. This can be the same
+as the OS check when running a clean MS DOS 6.22 installation without 4DOS,
+NDOS for example. But for other DOS alternatives like DR DOS 6.0 it will 
+return for example IBM DOS 3.31. This can be important when running certain 
+games or applications.
+
+Base Memory: This will report the total base memory value and how much free
+base memory is available.
+
+XMS/EMS Memory: This will report the total amount of XMS and EMS memory (if
+available). It will not report the amount of free XMS/EMS. This was a design
+decision because of the limited space and I'd rather see total instead of 
+free.
+
+Disk: This will show the used space and total size of the current disk. It 
+will also show the percentage used. This works on FAT32 drives as well.
+
+Drives: This will show all available drive (floppy/disk drives, CD-ROMs 
+etc). If you have more then around 10 drives defined it will be cut off at
+the end and will only show the first 10 drives. This is done to prevent 
+corrupt screen output.
+
+Uptime: This will show how long the computer is running. As this will account
+for leap years etc as well it is able to show very long uptimes. Probably
+unrealistic for a DOS machine nowadays but it's possible. :) For this to work
+it's necessary to run DOSINFO.EXE /CREATE or DOSINFO.EXE /CREATE /NOSHOW when 
+the computer starts. This will save the start time and date to a file. 
+Unfortunately there is no reliable way to get this information in another way.
+
+4- Logo and colors
 ==============================================================================
 
 It's possible to change the logo and colors if you don't like the defaults.
@@ -83,7 +135,7 @@ On Github (https://github.com/Yoghoo/DosInfo) there are two files to change
 this. 
 
 DOSINFO.LGO contains an example logo which you can change to your liking. Keep
-in mind that it should be at most 8 lines with each line containing 42 
+in mind that it should be at most 8 lines with each line containing 40 
 characters or less. All extra lines and characters above that limit will not
 be used.
 
@@ -91,22 +143,29 @@ DOSINFO.CFG contains the colors you want to use. The first 5 lines are used
 for the colors. The first 3 colors are for the 3 columns of the logo. The 4th
 is for the description of the check. The last one is for the value of the 
 check. Below the 5 lines is a complete description of all colors that can
-used etc. These lines can be removed without problems if needed.
+used. These extra lines can be removed without problems if needed.
 
-4- Tested systems
+Keep the filenames as is and put them in the same directory where DOSINFO.EXE
+resides.
+
+5- Tested systems
 ==============================================================================
 
-DosInfo is tested on 286 CPU's and newer (until Pentium II). In Dosbox-X it 
-also runs on a 8088 CPU but this is not tested on actual hardware. 
+DosInfo is tested on computers with NEC V20  CPUs and newer (until Pentium 
+II). In Dosbox-X it also runs on a 8088 CPU but this is not tested on actual 
+hardware yet. 
 
-5- Example output from DosInfo
+Also a lot of DOS OSes were tested. Some examples are MS-DOS 2.0, 3.31, 6.22,
+DR-DOS 6.0, Novell DOS 7.0, IBM PC DOS 7.0 and FreeDOS 1.4.
+
+6- Example DosInfo output
 ==============================================================================
 
- 8888888b.      .d88888b.      .d8888b.     OS: DOSBox-X (running MS-DOS 7.10)
- 888  "Y88b    d88P" "Y88b    d88P  Y88b    Shell: 4DOS.COM
- 888    888    888     888    Y88b.         Floppy Drives: 2
- 888    888    888     888     "Y888b.      Disk: 127.97/2047.97 MB (94% free)
- 888    888    888     888        "Y88b.    Base Memory: 640 KB (604 KB free)
- 888    888    888     888          "888    XMS/EMS Memory: 15.0 MB/14.3 MB
- 888  .d88P    Y88b. .d88P    Y88b  d88P    CPU Family: Pentium II (with FPU)
- 8888888P"      "Y88888P"      "Y8888P"     Uptime: 5h 38m 17s
+8888888b.       .d88888b.      .d8888b.     CPU: Intel 486 DX
+888  "Y88b     d88P" "Y88b    d88P  Y88b    OS: DOSBox-X
+888    888     888     888    Y88b.         Dos Version: MS DOS 7.10
+888    888     888     888     "Y888b.      Base Memory: 640KB (604KB free)
+888    888     888     888        "Y88b.    XMS/EMS Memory: 15.00MB/14.30MB
+888    888     888     888          "888    Disk: 303.9GB/931.5GB (32.6% used)
+888  .d88P     Y88b. .d88P    Y88b  d88P    Drives: C: E: Z:
+8888888P"       "Y88888P"      "Y8888P"     Uptime: 1h 14m 49s
