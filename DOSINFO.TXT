@@ -1,4 +1,4 @@
-DosInfo: a neofetch clone for DOS v1.0.1 (c) 2025 by Yoghoo
+DosInfo: a neofetch clone for DOS (c) 2025 by Yoghoo
 ==============================================================================
 
 Index of this document:
@@ -169,3 +169,4 @@ DR-DOS 6.0, Novell DOS 7.0, IBM PC DOS 7.0 and FreeDOS 1.4.
 888    888     888     888          "888    Disk: 303.9GB/931.5GB (32.6% used)
 888  .d88P     Y88b. .d88P    Y88b  d88P    Drives: C: E: Z:
 8888888P"       "Y88888P"      "Y8888P"     Uptime: 1h 14m 49s
+
