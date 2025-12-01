@@ -19,11 +19,11 @@ system information tool mainly for Linux (no longer maintained). There are a
 couple of DOS alternatives already but those require 386+ CPUs or didn't have
 the options I would like to see.
 
-After seeing a post on Vogons where userJo22 mentioned dosfetch I became 
+After seeing a post on Vogons where user Jo22 mentioned dosfetch I became 
 curious and saw that the sources were available as well. As I did some Turbo 
 Pascal programming when I started my career I jumped on it and added the 
 checks and options I wanted. In the process it became a complete rewrite and 
-almost none of the code for checks etc of dosfetch is used anymore.
+almost none of the code from dosfetch is used anymore.
 
 Further information about dosfetch can be found on their Github page
 (https://github.com/leahneukirchen/dosfetch/tree/master).
@@ -44,8 +44,10 @@ Added and improved checks:
 Added options:
 
  - Logo is changeable (with a text file)
- - Includes a /nologo switch if you don't want to show a logo
  - Colors can be changed (with a config file)
+ - Includes a /nologo switch if you don't want to show a logo
+ - Includes a /nocls switch to run the program without clearing the screen
+ - Includes a /save switch to run the program and save output to a text file
 
 Removed some bugs (like OS version for older DOS versions) and added some 
 sanity checks (line length etc).
@@ -60,13 +62,14 @@ DOSINFO.EXE /?
 
 Which gives you all available option. Here is an example of the output:
 
-DosInfo, version 0.8.1
+DosInfo, version 0.8.3
 Copyright 2025 (c) by Yoghoo
 
 Usage: DosInfo [options]
   /create          -- Create uptime counter file and run the program
   /nologo          -- Run the program without showing a logo
-  /nologo /create  -- Create uptime counter file and run program without logo
+  /nocls           -- Run the program without clearing the screen
+  /save            -- Run the program and save output to a text file
   /noshow          -- Create uptime counter file but don't run the program
   /remove          -- Remove uptime counter file
 
@@ -115,9 +118,8 @@ Disk: This will show the used space and total size of the current disk. It
 will also show the percentage used. This works on FAT32 drives as well.
 
 Drives: This will show all available drive (floppy/disk drives, CD-ROMs 
-etc). If you have more then around 10 drives defined it will be cut off at
-the end and will only show the first 10 drives. This is done to prevent 
-corrupt screen output.
+etc). If you have more then around 10 drives defined it will adjust the 
+output (for example ACD etc instead of A: C: D: etc).
 
 Uptime: This will show how long the computer is running. As this will account
 for leap years etc as well it is able to show very long uptimes. Probably
@@ -151,9 +153,9 @@ resides.
 5- Tested systems
 ==============================================================================
 
-DosInfo is tested on computers with NEC V20  CPUs and newer (until Pentium 
+DosInfo is tested on computers with NEC V20 CPUs and newer (until Pentium 
 II). In Dosbox-X it also runs on a 8088 CPU but this is not tested on actual 
-hardware yet. 
+hardware yet.
 
 Also a lot of DOS OSes were tested. Some examples are MS-DOS 2.0, 3.31, 6.22,
 DR-DOS 6.0, Novell DOS 7.0, IBM PC DOS 7.0 and FreeDOS 1.4.
@@ -161,12 +163,11 @@ DR-DOS 6.0, Novell DOS 7.0, IBM PC DOS 7.0 and FreeDOS 1.4.
 6- Example DosInfo output
 ==============================================================================
 
-8888888b.       .d88888b.      .d8888b.     CPU: Intel 486 DX
+8888888b.       .d88888b.      .d8888b.     CPU: 80386 (with FPU)
 888  "Y88b     d88P" "Y88b    d88P  Y88b    OS: DOSBox-X
 888    888     888     888    Y88b.         Dos Version: MS DOS 7.10
 888    888     888     888     "Y888b.      Base Memory: 640KB (604KB free)
 888    888     888     888        "Y88b.    XMS/EMS Memory: 15.00MB/14.30MB
-888    888     888     888          "888    Disk: 303.9GB/931.5GB (32.6% used)
-888  .d88P     Y88b. .d88P    Y88b  d88P    Drives: C: E: Z:
-8888888P"       "Y88888P"      "Y8888P"     Uptime: 1h 14m 49s
-
+888    888     888     888          "888    Disk: 311.6GB/931.5GB (33.5% used)
+888  .d88P     Y88b. .d88P    Y88b  d88P    Drives: C: D: Z:
+8888888P"       "Y88888P"      "Y8888P"     Uptime: 1h 23m 37s
