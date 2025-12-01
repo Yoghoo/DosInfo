@@ -16,14 +16,16 @@ Added and improved checks:
 - Auto detects < 80 column displays and adjusts the output
 
 Added options:
-- Logo is changeable (with a text file)
-- Includes a /nologo switch if you don't want to show a logo
-- Colors can be changed (with a config file)
+ - Logo is changeable (with a text file)
+ - Colors can be changed (with a config file)
+ - Includes a /nologo switch if you don't want to show a logo
+ - Includes a /nocls switch to run the program without clearing the screen
+ - Includes a /save switch to run the program and save output to a text file
 
 Removed some bugs (like OS version for older DOS versions) and added some sanity checks (line length etc).
 
 DosInfo is tested on NEC V20 CPU's and newer (until Pentium II). In Dosbox-X it also runs on a 8088 CPU but this is not tested on actual hardware yet.
-It was also tested on a lot of different DOS OSes. Some examples are MS-DOS 2.0, 3.31, 6.22, DR-DOS 6.0, Novell DOS 7.0, IBM PC DOS 7.0 and FreeDOS 1.4.
+It was also tested on a lot of different DOS OSes. Some examples include: MS-DOS 2.0, 3.31, 6.22, DR-DOS 6.0, Novell DOS 7.0, IBM PC DOS 7.0 and FreeDOS 1.4.
 
 The screenshot below uses the default logo and colors.
 
